@@ -22,3 +22,27 @@ loginForm.addEventListener("submit", function(e) {
         socket.emit("new user", name);
     }
 });
+
+// Socket events
+socket.on("welcome", room => {
+    console.log("welcome", room);
+    currentRoom = room;
+    ui.hideLogin();
+    ui.showAuthorized();
+  });
+  socket.on("rooms", rooms => ui.generateRooms(rooms)); // get all rooms
+  // socket.on("updateusers", users => ui.generateUsersInRoom(users)); // get all users
+  socket.on("chat message", message => ui.addMessage(message));
+  socket.on("new user joined", user => ui.newUserJoin(user));
+  socket.on("roommates", ({ usernames }) => {
+    let users = Object.keys(usernames)
+      .filter(user => (usernames[user].room = currentRoom)) // -> ['user1', 'user2', ...];
+      .map(user => {
+        usernames[user].name = user;
+        return usernames[user];
+      }); // -> [{user1, {user2}, ...];
+  
+    ui.generateUsersInRoom(users);
+  });
+  socket.on("has left the room", user => ui.userLeft(user));
+  
