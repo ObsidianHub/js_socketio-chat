@@ -23,6 +23,23 @@ loginForm.addEventListener("submit", function(e) {
     }
 });
 
+messageForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+  
+    if (message.value) {
+      socket.emit("message", message.value);
+      message.value = "";
+    }
+  });
+  
+  roomList.addEventListener("click", function(e) {
+    if (e.target.dataset.roomIndex) {
+      let index = e.target.dataset.roomIndex;
+      socket.emit("roomchange", index);
+      // $(".side-nav").sidenav("close");
+    }
+  });
+  
 // Socket events
 socket.on("welcome", room => {
     console.log("welcome", room);
