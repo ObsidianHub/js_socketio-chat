@@ -28,6 +28,20 @@ class UI {
         );
     }
 
+    generateUsersInRoom(users) {
+        this.usersList.innerHTML = "";
+        users.forEach(user =>
+            this.usersList.insertAdjacentHTML("beforeend", UI.userListTemplate(user))
+        );
+    }
+    
+    addMessage(message) {
+        this.messageContainer.insertAdjacentHTML(
+            "beforeend",
+            UI.messageTemplate(message)
+        );
+    }
+
     newUserJoin(name) {
         this.messageContainer.insertAdjacentHTML(
             "beforeend",
@@ -35,7 +49,7 @@ class UI {
         );
     }
     
-      userLeft(user) {
+    userLeft(user) {
         this.messageContainer.insertAdjacentHTML(
             "beforeend",
             UI.userLeftTemplate(user)
