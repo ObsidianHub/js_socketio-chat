@@ -61,4 +61,10 @@ io.on('connection', socket => {
     io.emit("updateusers", usernames);
     io.emit("roommates", { usernames, room: socket.room });
   });
+
+  socket.on("message", msg => {
+    io.sockets
+      .in(socket.room)
+      .emit("chat message", { message: msg, username: socket.username });
+  });
 });
