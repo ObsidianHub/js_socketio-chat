@@ -17,4 +17,14 @@ class UI {
     }
 
     hideAuthorized() {}
+
+    generateRooms(rooms) {
+        this.roomsList.innerHTML = "";
+        rooms.forEach((room, index) =>
+            this.roomsList.insertAdjacentHTML(
+            "beforeend",
+            UI.roomListTemplate(room, index)
+            )
+        );
+    }
 }
