@@ -47,4 +47,18 @@ io.on('connection', socket => {
     io.emit("roommates", { usernames, room: socket.room }); // update list of room users
     io.emit("updateusers", usernames); // update list of users
   });
+
+  socket.on("disconnect", () => {
+    if (!socket.username) return;
+
+    io.emit("chat message", {
+      message: `${socket.username} has gone offline`,
+      username: false
+    });
+
+    delete usernames[socket.username];
+
+    io.emit("updateusers", usernames);
+    io.emit("roommates", { usernames, room: socket.room });
+  });
 });
