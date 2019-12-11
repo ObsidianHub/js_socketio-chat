@@ -23,3 +23,28 @@ const usernames = {};
 // list of rooms
 const rooms = ["room1", "room2", "some other room"];
 const default_room = rooms[0];
+
+io.on('connection', socket => {
+  let isUser = false;
+
+  // send list of rooms to client
+  socket.emit("rooms", rooms);
+
+  socket.on("new user", name => {
+    if (isUser) return;
+
+    socket.username = name;
+    usernames[name] = { room: default_room, id: socket.id }; // save room to the username[user]
+    isUser = true;
+
+    socket.room = default_room;
+    socket.join(default_room);
+
+    socket.emit("welcome", socket.room); // to the user
+
+    socket.broadcast.to(socket.room).emit("new user joined", socket.username); // to everyone in the room except the user
+
+    io.emit("roommates", { usernames, room: socket.room }); // update list of room users
+    io.emit("updateusers", usernames); // update list of users
+  });
+});
