@@ -67,4 +67,24 @@ io.on('connection', socket => {
       .in(socket.room)
       .emit("chat message", { message: msg, username: socket.username });
   });
+
+  socket.on("roomchange", index => {
+    socket.broadcast.to(socket.room).emit("has left the room", socket.username);
+    socket.broadcast.to(socket.room).emit("userswitchedroom", {
+      usernames,
+      name: socket.username,
+      room: socket.room
+    });
+    socket.leave(socket.room);
+
+    socket.room = rooms[index];
+    console.log(usernames[socket.username]);
+    usernames[socket.username].room = rooms[index];
+    socket.join(socket.room);
+
+    socket.emit("welcome", socket.room);
+
+    socket.broadcast.to(socket.room).emit("new user joined", socket.username);
+    io.emit("roommates", { usernames, room: socket.room });
+  });
 });
