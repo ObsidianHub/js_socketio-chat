@@ -27,4 +27,18 @@ class UI {
             )
         );
     }
+
+    newUserJoin(name) {
+        this.messageContainer.insertAdjacentHTML(
+            "beforeend",
+            UI.newUserJoinTemplate(name)
+        );
+    }
+    
+      userLeft(user) {
+        this.messageContainer.insertAdjacentHTML(
+            "beforeend",
+            UI.userLeftTemplate(user)
+        );
+    }
 }
