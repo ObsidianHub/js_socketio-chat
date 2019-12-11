@@ -13,3 +13,12 @@ const roomList = document.querySelector(".rooms-list");
 
 // Init local vars
 let currentRoom;
+
+loginForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    if (userName.value) {
+        const name = userName.value;
+        socket.emit("new user", name);
+    }
+});
