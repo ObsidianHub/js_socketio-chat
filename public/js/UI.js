@@ -75,4 +75,16 @@ class UI {
           </div>
         `;
     }
+
+    static roomListTemplate(room, index) {
+        return `
+            <li><a href="#" class="waves-effect" data-room-index="${index}">${room}</a></li>
+        `;
+    }
+    
+    static userListTemplate({ name, id }) {
+        return `
+            <li class="collection-item" data-user-id="${id}">${name}</li>
+        `;
+    }
 }
