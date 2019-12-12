@@ -87,4 +87,16 @@ class UI {
             <li class="collection-item" data-user-id="${id}">${name}</li>
         `;
     }
+
+    static messageTemplate(msg) {
+        return `
+          <div class="message">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <p>${msg.message}</p>
+                    </div>
+                </div>
+          </div>
+        `;
+    }
 }
