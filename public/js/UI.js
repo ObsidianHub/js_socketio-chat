@@ -55,4 +55,24 @@ class UI {
             UI.userLeftTemplate(user)
         );
     }
+
+    static userLeftTemplate(user) {
+        return `
+          <div class="card teal lighten-2">
+                <div class="card-content white-text">
+                    <p>Has left the room: ${user}</p>
+                </div>
+          </div>
+        `;
+    }
+    
+    static newUserJoinTemplate(name) {
+        return `
+          <div class="card teal lighten-2">
+                <div class="card-content white-text">
+                    <p>New user: ${name} joined to chat</p>
+                </div>
+          </div>
+        `;
+    }
 }
