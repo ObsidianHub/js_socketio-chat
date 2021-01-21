@@ -9,7 +9,7 @@ const serverInstance = app.listen(port, () => {
 });
 
 // set up socket
-const io = require("socket.io").listen(serverInstance);
+const io = require("socket.io")(serverInstance);
 
 app.use(express.static("public"));
 
@@ -24,13 +24,13 @@ const usernames = {};
 const rooms = ["room1", "room2", "some other room"];
 const default_room = rooms[0];
 
-io.on('connection', socket => {
+io.on("connection", (socket) => {
   let isUser = false;
 
   // send list of rooms to client
   socket.emit("rooms", rooms);
 
-  socket.on("new user", name => {
+  socket.on("new user", (name) => {
     if (isUser) return;
 
     socket.username = name;
@@ -53,7 +53,7 @@ io.on('connection', socket => {
 
     io.emit("chat message", {
       message: `${socket.username} has gone offline`,
-      username: false
+      username: false,
     });
 
     delete usernames[socket.username];
@@ -62,18 +62,18 @@ io.on('connection', socket => {
     io.emit("roommates", { usernames, room: socket.room });
   });
 
-  socket.on("message", msg => {
+  socket.on("message", (msg) => {
     io.sockets
       .in(socket.room)
       .emit("chat message", { message: msg, username: socket.username });
   });
 
-  socket.on("roomchange", index => {
+  socket.on("roomchange", (index) => {
     socket.broadcast.to(socket.room).emit("has left the room", socket.username);
     socket.broadcast.to(socket.room).emit("userswitchedroom", {
       usernames,
       name: socket.username,
-      room: socket.room
+      room: socket.room,
     });
     socket.leave(socket.room);
 
