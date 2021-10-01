@@ -1,4 +1,3 @@
-$(document).ready(function() {
-    $(".sidenav-trigger").sideNav();
-  });
-  
+$(document).ready(function () {
+  $('.sidenav-trigger').sideNav();
+});
